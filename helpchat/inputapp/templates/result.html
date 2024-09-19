@@ -1,0 +1,15 @@
+<!-- result.html -->
+<h1>結果</h1>
+<p>{{ result }}</p>  <!-- 既存の機能の結果表示 -->
+
+<h2>検索結果</h2>
+<p>{{ search_result }}</p>  <!-- 追加された検索結果表示 -->
+
+<button type="submit"  onclick="goBack()">戻る</button>
+
+<script>
+function goBack(){
+    window.history.back();
+}
+
+</script>
