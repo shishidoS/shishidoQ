@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .forms import InputForm
+from .models import Inquiry
 from janome.tokenizer import Tokenizer
 import google.generativeai as genai
 
@@ -33,17 +34,27 @@ def input_view(request):
             subject = form.cleaned_data['subject']
             message = form.cleaned_data['message']
 
-            # 形態素解析を行い、単語を分割
-            split_words = word_split(message)
-
             # Geminiへメッセージを送信し、AIの回答を取得
             gemini_message = f"会社: {company}\n店舗: {store}\n担当スタッフ: {staff}\n題名: {subject}\n内容: {message}\n"
             gemini_response = get_answer_from_gemini(gemini_message)
 
-            # 結果をテンプレートに渡す
-            return render(request, 'result.html', {'split_words': split_words, 'gemini_response': gemini_response})
+            # お問い合わせをデータベースに保存
+            inquiry = Inquiry.objects.create(
+                company=company,
+                store=store,
+                staff=staff,
+                subject=subject,
+                message=message,
+                response=gemini_response
+            )
+
+            # 結果ページにリダイレクト
+            return render(request, 'result.html', {'gemini_response': gemini_response})
 
     else:
         form = InputForm()
 
-    return render(request, 'input.html', {'form': form})
+    # 過去のお問い合わせを取得
+    inquiries = Inquiry.objects.order_by('-created_at')
+
+    return render(request, 'input.html', {'form': form, 'inquiries': inquiries})

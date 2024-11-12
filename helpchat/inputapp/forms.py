@@ -1,9 +1,5 @@
-# inputapp/forms.py
-
 from django import forms
 
-class InputForm(forms.Form):
-    text_input = forms.CharField(label='Your Input', max_length=100)
 class InputForm(forms.Form):
     company = forms.ChoiceField(
         choices=[('company1', '会社1'), ('company2', '会社2'), ('company3', '会社3')],
@@ -26,3 +22,4 @@ class InputForm(forms.Form):
         label='問い合わせ内容を入力してください',
         widget=forms.Textarea(attrs={'rows': 5, 'placeholder': '問い合わせ内容を入力'})
     )
+

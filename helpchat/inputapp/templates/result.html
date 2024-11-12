@@ -91,7 +91,8 @@
     </div>
 
     <div class="container">
-        <button type="button" class="return-button"onclick="goBack()">戻る</button>
+        <a href="javascript:history.back()" class="return-button">← 戻る</a>
+
         <div class="ai-response">
             <h2>AIからの回答</h2>
             <p>{{ gemini_response }}</p>
@@ -111,10 +112,4 @@
         &copy; 2024 Nagoya Toyopet. All Rights Reserved.
     </footer>
 </body>
-
-<script>
-    function goBack(){
-        window.location.href = '/input/'; // フォームページのURLを指定
-    }
-    </script>
 </html>
